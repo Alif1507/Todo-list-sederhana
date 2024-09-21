@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO</title>
+  <style>
+    .add {
+      margin-left: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background-color: green;
+      color: white;
+      border: none;
+    }
+
+    .tado {
+      margin-left: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .date {
+      margin-left: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .delete {
+      margin-left: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+    }
+
+    .box {
+      display: flex;
+      justify-content: center;
+    }
+
+    .box1 {
+      display: flex;
+      justify-content: space-between;
+      gap: 7rem;
+      margin-top: 2rem;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="box">
+    <input class="tado" type="text" placeholder="TODO">
+    <input class="date" type="date">
+    <button onclick="tambahkan()" class="add">ADD</button>
+  </div>
+
+  <div class="box2">
+    
+  </div>
+  
+</body>
+<script>
+  
+  let todo = JSON.parse(localStorage.getItem('todoList')) || [];
+
+
+  function saveToLocalStorage() {
+    localStorage.setItem('todoList', JSON.stringify(todo));
+  }
+
+ 
+  function tampilkan() {
+    let obj = "";
+    for (let i = 0; i < todo.length; i++) {
+      const listObject = todo[i];
+      const { listTodo, date } = listObject;
+
+      const html = `<div class="box">
+        <div class="box1">
+          <p class="makan">${listTodo}</p>
+          <p class="">${date}</p>
+          <button onclick="hapus(${i})" class="delete">Delete</button>
+        </div>
+      </div>`;
+
+      obj += html;
+    }
+    document.querySelector('.box2').innerHTML = obj;
+  }
+
+
+  function tambahkan() {
+    const addElt = document.querySelector(".tado");
+    const addElt2 = document.querySelector(".date");
+
+    const add = addElt.value;
+    const add2 = addElt2.value;
+
+    if (add && add2) { 
+      todo.push({
+        listTodo: add,
+        date: add2
+      });
+
+      saveToLocalStorage(); 
+      tampilkan(); 
+      addElt.value = "";
+      addElt2.value = "";
+    } else {
+      alert("Please fill out both fields.");
+    }
+  }
+
+  
+  function hapus(index) {
+    todo.splice(index, 1);  
+    saveToLocalStorage();   
+    tampilkan();            
+  }
+
+  tampilkan();
+
+</script>
+</html>
